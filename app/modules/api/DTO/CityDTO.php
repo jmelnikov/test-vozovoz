@@ -1,8 +1,8 @@
 <?php
 
-namespace app\modules\api;
+namespace app\modules\api\DTO;
 
-class CitiesDTO
+class CityDTO
 {
     private array $cities;
 
@@ -18,7 +18,7 @@ class CitiesDTO
         foreach ($this->cities as $city) {
             $cities[] = [
                 'id' => $city['guid'],
-                'name' => $city['name'],
+                'name' => $city['type'] . ' ' . $city['name'],
             ];
         }
 

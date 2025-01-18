@@ -2,30 +2,36 @@
 
 namespace app\modules\api\service;
 
+use Yii;
 use yii\base\InvalidConfigException;
 use yii\httpclient\Client;
 use yii\httpclient\Exception;
 use yii\redis\Connection;
+use yii\web\Request;
 
-class CitiesService
+class CityService
 {
     private const CACHE_TTL = 3600;
-
     private Client $httpClient;
-    private Connection $redis;
+    private Connection $cache;
 
 
     public function __construct()
     {
         $this->httpClient = new Client();
-        $this->redis = \Yii::$app->{'cities-cache'};
+        $this->cache = Yii::$app->{'cities-cache'};
     }
 
     /**
      * @throws \Exception
      */
-    public function findCitiesByQuery(string $query, int $limit = 20, int $offset = 0)
+    public function findCitiesByRequest(Request $request): array
     {
+
+        $query = $request->post('query', '');
+        $limit = $request->post('limit', 20);
+        $offset = $request->post('offset', 0);
+
         if (mb_strlen($query) < 3) {
             return [];
         }
@@ -36,13 +42,14 @@ class CitiesService
             'offset' => $offset,
         ];
 
-        $response = $this->redis->get(implode('|', $params));
+        $cacheKey = implode('|', $params);
+        $response = $this->cache->get($cacheKey);
 
         if (!$response) {
             $response = $this->getCitiesFromServer($params);
 
-            $this->redis->set(implode('|', $params), $response);
-            $this->redis->expire(implode('|', $params), self::CACHE_TTL);
+            $this->cache->set($cacheKey, $response);
+            $this->cache->expire($cacheKey, self::CACHE_TTL);
         }
 
         return json_decode($response, true);

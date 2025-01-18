@@ -2,8 +2,9 @@
 
 namespace app\modules\api\controllers;
 
-use app\modules\api\CitiesDTO;
-use app\modules\api\service\CitiesService;
+use app\modules\api\DTO\CityDTO;
+use app\modules\api\service\CityService;
+use app\modules\api\service\PriceService;
 use Exception;
 use Yii;
 use yii\web\Controller;
@@ -20,12 +21,8 @@ class DefaultController extends Controller
     public function actionCities(): string
     {
         try {
-            $cities = (new CitiesService())
-                ->findCitiesByQuery(
-                    Yii::$app->request->post('query', ''),
-                    Yii::$app->request->post('limit', 20),
-                    Yii::$app->request->post('offset', 0)
-                );
+            $cities = (new CityService())
+                ->findCitiesByRequest(Yii::$app->request);
         } catch (Exception $exception) {
             return json_encode([
                 'success' => false,
@@ -35,12 +32,24 @@ class DefaultController extends Controller
 
         return json_encode([
             'success' => true,
-            'cities' => (new CitiesDTO($cities))->getCitiesShort(),
+            'cities' => (new CityDTO($cities))->getCitiesShort(),
         ], JSON_UNESCAPED_UNICODE);
     }
 
     public function actionCalc(): string
     {
-        return '{"success": true}';
+        try {
+            $price = (new PriceService())->getPricesByRequest(Yii::$app->request);
+        } catch (Exception $exception) {
+            return json_encode([
+                'success' => false,
+                'error' => $exception->getMessage(),
+            ], JSON_UNESCAPED_UNICODE);
+        }
+
+        return json_encode([
+            'success' => true,
+            'price' => $price,
+        ], JSON_UNESCAPED_UNICODE);
     }
 }

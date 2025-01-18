@@ -11,14 +11,17 @@ $this->title = 'Vozovoz Test';
                 <div class="col-6">
                     <div class="mb-3">
                         <label for="deliveryFrom" class="form-label">Откуда</label>
-                        <input type="text" class="form-control" id="deliveryFrom" list="citiesFrom">
+                        <input type="hidden" id="cityFrom">
+                        <input type="text" class="form-control" id="deliveryFrom" list="citiesFrom"
+                               value="г Москва">
                         <datalist id="citiesFrom"></datalist>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="mb-3">
                         <label for="deliveryTo" class="form-label">Куда</label>
-                        <input type="text" class="form-control" id="deliveryTo" list="citiesTo">
+                        <input type="text" class="form-control" id="deliveryTo" list="citiesTo"
+                               value="г Санкт-Петербург">
                         <datalist id="citiesTo"></datalist>
                     </div>
                 </div>
@@ -70,19 +73,25 @@ $this->title = 'Vozovoz Test';
                         <div class="col-6 mb-3">
                             <div class="mb-3">
                                 <label for="volume" class="form-label">Объём</label>
-                                <input type="text" class="form-control" id="volume">
+                                <input type="text" class="form-control" id="volume" value="0.1"
+                                       oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/(^0+)(\d)/, '$2');">
                             </div>
                         </div>
                         <div class="col-6 mb-3">
                             <div class="mb-3">
                                 <label for="weight" class="form-label">Вес</label>
-                                <input type="text" class="form-control" id="weight">
+                                <input type="text" class="form-control" id="weight" value="0.1"
+                                       oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/(^0+)(\d)/, '$2');">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-6 mb-3">
-                    <h1 class="text-center">123456</h1>
+                    <h1 class="text-center">
+
+                        <span class="text-muted" style="text-decoration: line-through;">123</span>
+                        456
+                    </h1>
                 </div>
             </div>
             <div class="row">
