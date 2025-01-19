@@ -23,7 +23,9 @@ class CityService
     }
 
     /**
-     * @throws \Exception
+     * @param Request $request
+     * @return array
+     * @throws Exception
      */
     public function findCitiesByRequest(Request $request): array
     {
@@ -56,6 +58,8 @@ class CityService
     }
 
     /**
+     * @param array $params
+     * @return string
      * @throws Exception
      */
     private function getCitiesFromServer(array $params): string
@@ -74,7 +78,6 @@ class CityService
             throw new Exception('Ошибка при поиске города: ' . $exception->getMessage(), 500, $exception);
         }
 
-        // Возвращаем только города, без дополнительной информации
         return json_encode($response->getData()['response']['data']);
     }
 }

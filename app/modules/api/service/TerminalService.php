@@ -23,7 +23,9 @@ class TerminalService
     }
 
     /**
-     * @throws \Exception
+     * @param Request $request
+     * @return array
+     * @throws Exception
      */
     public function getTerminalsByRequest(Request $request): array
     {
@@ -55,6 +57,8 @@ class TerminalService
     }
 
     /**
+     * @param array $params
+     * @return string
      * @throws Exception
      */
     private function getTerminalsFromServer(array $params): string
@@ -73,7 +77,6 @@ class TerminalService
             throw new Exception('Ошибка при поиске города: ' . $exception->getMessage(), 500, $exception);
         }
 
-        // Возвращаем только терминалы, без дополнительной информации
         return json_encode($response->getData()['response']['data']);
     }
 }

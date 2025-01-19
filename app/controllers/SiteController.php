@@ -6,6 +6,9 @@ use yii\web\Controller;
 
 class SiteController extends Controller
 {
+    /**
+     * @return array
+     */
     public function actions(): array
     {
         return [

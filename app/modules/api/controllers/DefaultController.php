@@ -16,6 +16,9 @@ class DefaultController extends Controller
     public $enableCsrfValidation = false;
 
 
+    /**
+     * @return array[]
+     */
     public function behaviors(): array
     {
         return [
@@ -30,11 +33,19 @@ class DefaultController extends Controller
         ];
     }
 
+    /**
+     * @return string
+     */
     public function actionIndex(): string
     {
-        return '{"success": true}';
+        return json_encode([
+            'success' => false,
+        ]);
     }
 
+    /**
+     * @return string
+     */
     public function actionCities(): string
     {
         try {
@@ -53,6 +64,9 @@ class DefaultController extends Controller
         ], JSON_UNESCAPED_UNICODE);
     }
 
+    /**
+     * @return string
+     */
     public function actionTerminals(): string
     {
         try {
@@ -67,7 +81,7 @@ class DefaultController extends Controller
 
         return json_encode([
             'success' => true,
-            'terminals' => (new TerminalDTO($terminals))->getTerminalsShort(),
+            'terminals' => (new TerminalDTO($terminals))->getTerminalsData(),
         ], JSON_UNESCAPED_UNICODE);
     }
 }

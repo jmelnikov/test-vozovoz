@@ -6,12 +6,18 @@ class TerminalDTO
 {
     private array $terminals;
 
+    /**
+     * @param array $cities
+     */
     public function __construct(array $cities)
     {
         $this->terminals = $cities;
     }
 
-    public function getTerminalsShort(): array
+    /**
+     * @return array
+     */
+    public function getTerminalsData(): array
     {
         $terminals = [];
 

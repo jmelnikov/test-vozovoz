@@ -15,7 +15,6 @@ class PriceService
     private Client $httpClient;
     private Connection $cache;
 
-
     public function __construct()
     {
         $this->httpClient = new Client();
@@ -23,6 +22,8 @@ class PriceService
     }
 
     /**
+     * @param Request $request
+     * @return array
      * @throws Exception
      */
     public function getPricesByFormRequest(Request $request): array
@@ -93,6 +94,8 @@ class PriceService
     }
 
     /**
+     * @param array $params
+     * @return string
      * @throws Exception
      */
     private function getPricesFromServer(array $params): string

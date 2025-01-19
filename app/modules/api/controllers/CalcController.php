@@ -13,6 +13,9 @@ class CalcController extends Controller
     public $enableCsrfValidation = false;
 
 
+    /**
+     * @return array[]
+     */
     public function behaviors(): array
     {
         return [
@@ -26,11 +29,19 @@ class CalcController extends Controller
         ];
     }
 
+    /**
+     * @return string
+     */
     public function actionIndex(): string
     {
-        return '{"success": true}';
+        return json_encode([
+            'success' => false,
+        ]);
     }
 
+    /**
+     * @return string
+     */
     public function actionForm(): string
     {
         try {
