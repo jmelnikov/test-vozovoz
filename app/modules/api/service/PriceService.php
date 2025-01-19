@@ -29,42 +29,17 @@ class PriceService
     public function getPricesByFormRequest(Request $request): array
     {
         $deliveryFrom = $request->get('deliveryFrom', 'г Москва');
+        $terminalFrom = $request->get('terminalFrom', 'default');
         $deliveryTo = $request->get('deliveryTo', 'г Санкт-Петербург');
+        $terminalTo = $request->get('terminalTo', 'default');
         $radioFrom = $request->get('radioFrom', 'terminal');
         $radioTo = $request->get('radioTo', 'terminal');
         $volume = $request->get('volume', 0.1);
         $weight = $request->get('weight', 0.1);
         $quantity = $request->get('quantity', 1);
 
-        if ($radioFrom == 'terminal') {
-            $dispatch = [
-                'point' => [
-                    'location' => $deliveryFrom,
-                    'terminal' => $request->get('terminalFrom', 'default')
-                ]
-            ];
-        } else {
-            $dispatch = [
-                'point' => [
-                    'location' => $deliveryFrom
-                ]
-            ];
-        }
-
-        if ($radioTo == 'terminal') {
-            $destination = [
-                'point' => [
-                    'location' => $deliveryTo,
-                    'terminal' => $request->get('terminalTo', 'default')
-                ]
-            ];
-        } else {
-            $destination = [
-                'point' => [
-                    'location' => $deliveryTo
-                ]
-            ];
-        }
+        $dispatch = $this->getDestination($radioFrom, $deliveryFrom, $terminalFrom);
+        $destination = $this->getDestination($radioTo, $deliveryTo, $terminalTo);
 
         $params = [
             'cargo' => [
@@ -91,6 +66,30 @@ class PriceService
         }
 
         return json_decode($response, true);
+    }
+
+    /**
+     * @param string $type
+     * @param string $location
+     * @param string|null $terminal
+     * @return array[]
+     */
+    private function getDestination(string $type, string $location, string $terminal = null): array
+    {
+        if ($type == 'terminal') {
+            return [
+                'point' => [
+                    'location' => $location,
+                    'terminal' => $terminal
+                ]
+            ];
+        } else {
+            return [
+                'point' => [
+                    'location' => $location,
+                ]
+            ];
+        }
     }
 
     /**
