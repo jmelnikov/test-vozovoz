@@ -28,6 +28,17 @@ $this->title = 'Vozovoz Terminals';
         <p class="mb-0 terminal-address">Саратов, пр. Строителей, д. 39 А</p>
         <p class="terminal-id text-muted">43ba2e9d-c94d-11e4-80bf-00155d903d03</p>
 
+        <p class="mb-0"><strong>График работы:</strong></p>
+        <p class="mb-0">
+            <em>Пн-пт:</em> <span class="workdays"></span>
+        </p>
+        <p class="mb-0">
+            <em>Вс:</em> <span class="saturday"></span>
+        </p>
+        <p>
+            <em>Сб:</em> <span class="sunday"></span>
+        </p>
+
         <p class="mb-0">
             <strong>Описание:</strong>
             <span class="terminal-description">макс. вес 1-го места 1500 кг при габаритах 12,9м * 2,4м * 2,4м</span>
@@ -93,6 +104,11 @@ $this->title = 'Vozovoz Terminals';
                 terminalInfo.querySelector('.terminal-name').innerText = terminal.name || 'Нет названия';
                 terminalInfo.querySelector('.terminal-address').innerText = terminal.address || 'Нет адреса';
                 terminalInfo.querySelector('.terminal-id').innerText = terminal.id || 'Нет идентификатора';
+
+                terminalInfo.querySelector('.workdays').innerText = getWorkingTime(terminal.timetable?.workday);
+                terminalInfo.querySelector('.saturday').innerText = getWorkingTime(terminal.timetable?.saturday);
+                terminalInfo.querySelector('.sunday').innerText = getWorkingTime(terminal.timetable?.sunday);
+
                 terminalInfo.querySelector('.terminal-description').innerText = terminal.description || 'Нет описания';
                 terminalInfo.querySelector('.terminal-note').innerText = terminal.note || 'Нет примечаний';
 
@@ -109,4 +125,12 @@ $this->title = 'Vozovoz Terminals';
             terminalsContainer.innerHTML = '<p>Терминалы не найдены</p>';
         }
     });
+
+    function getWorkingTime(schedule) {
+        if (schedule.isWorking === false) {
+            return 'выходной';
+        } else {
+            return `c ${schedule.from} до ${schedule.to}`;
+        }
+    }
 </script>
