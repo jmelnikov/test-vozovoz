@@ -114,18 +114,12 @@ $this->title = 'Vozovoz Test';
 
     document.getElementById('deliveryFrom').addEventListener('input', function () {
         clearTimeout(typingTimer);
-        const inputElement = this;
-        const enteredText = inputElement.value;
 
-        if (enteredText.length >= 3) {
+        if (this.value.length >= 3) {
             document.getElementById('citiesFrom').innerHTML = '';
             typingTimer = setTimeout(() => {
-                const formData = new FormData();
-                formData.append('query', enteredText);
-
-                fetch('/api/cities', {
-                    method: 'POST',
-                    body: formData,
+                fetch('/api/cities?' + new URLSearchParams({query: this.value}), {
+                    method: 'GET',
                 })
                     .then(response => {
                         if (!response.ok) {
@@ -150,18 +144,12 @@ $this->title = 'Vozovoz Test';
 
     document.getElementById('deliveryTo').addEventListener('input', function () {
         clearTimeout(typingTimer);
-        const inputElement = this;
-        const enteredText = inputElement.value;
 
-        if (enteredText.length >= 3) {
+        if (this.value.length >= 3) {
             document.getElementById('citiesTo').innerHTML = '';
             typingTimer = setTimeout(() => {
-                const formData = new FormData();
-                formData.append('query', enteredText);
-
-                fetch('/api/cities', {
-                    method: 'POST',
-                    body: formData,
+                fetch('/api/cities?' + new URLSearchParams({query: this.value}), {
+                    method: 'GET',
                 })
                     .then(response => {
                         if (!response.ok) {
@@ -185,26 +173,15 @@ $this->title = 'Vozovoz Test';
     });
 
     document.getElementById('calculateBtn').addEventListener('click', function () {
-        const deliveryFrom = document.getElementById('deliveryFrom').value;
-        const deliveryTo = document.getElementById('deliveryTo').value;
-
-        const radioFrom = document.querySelector('input[name="radioFrom"]:checked')?.value || '';
-        const radioTo = document.querySelector('input[name="radioTo"]:checked')?.value || '';
-
-        const volume = document.getElementById('volume').value;
-        const weight = document.getElementById('weight').value;
-
-        const formData = new FormData();
-        formData.append('deliveryFrom', deliveryFrom);
-        formData.append('deliveryTo', deliveryTo);
-        formData.append('radioFrom', radioFrom);
-        formData.append('radioTo', radioTo);
-        formData.append('volume', volume);
-        formData.append('weight', weight);
-
-        fetch('/api/calc', {
-            method: 'POST',
-            body: formData,
+        fetch('/api/calc?' + new URLSearchParams({
+            deliveryFrom: document.getElementById('deliveryFrom').value,
+            deliveryTo: document.getElementById('deliveryTo').value,
+            radioFrom: document.querySelector('input[name="radioFrom"]:checked')?.value || '',
+            radioTo: document.querySelector('input[name="radioTo"]:checked')?.value || '',
+            volume: document.getElementById('volume').value,
+            weight: document.getElementById('weight').value,
+        }), {
+            method: 'GET',
         })
             .then(response => {
                 if (!response.ok) {

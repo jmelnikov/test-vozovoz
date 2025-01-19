@@ -28,9 +28,9 @@ class CityService
     public function findCitiesByRequest(Request $request): array
     {
 
-        $query = $request->post('query', '');
-        $limit = $request->post('limit', 20);
-        $offset = $request->post('offset', 0);
+        $query = $request->get('query', '');
+        $limit = $request->get('limit', 20);
+        $offset = $request->get('offset', 0);
 
         if (mb_strlen($query) < 3) {
             return [];

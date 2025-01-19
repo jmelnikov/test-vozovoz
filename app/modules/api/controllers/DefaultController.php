@@ -7,11 +7,27 @@ use app\modules\api\service\CityService;
 use app\modules\api\service\PriceService;
 use Exception;
 use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 
 class DefaultController extends Controller
 {
     public $enableCsrfValidation = false;
+
+
+    public function behaviors(): array
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'index' => ['GET'],
+                    'cities' => ['GET',],
+                    'calc' => ['GET'],
+                ],
+            ],
+        ];
+    }
 
     public function actionIndex(): string
     {

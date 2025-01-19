@@ -27,13 +27,13 @@ class PriceService
      */
     public function getPricesByRequest(Request $request): array
     {
-        $deliveryFrom = $request->post('deliveryFrom', 'г Москва');
-        $deliveryTo = $request->post('deliveryTo', 'г Санкт-Петербург');
-        $radioFrom = $request->post('radioFrom', 'terminal');
-        $radioTo = $request->post('radioTo', 'terminal');
-        $volume = $request->post('volume', 0.1);
-        $weight = $request->post('weight', 0.1);
-        $quantity = $request->post('quantity', 1);
+        $deliveryFrom = $request->get('deliveryFrom', 'г Москва');
+        $deliveryTo = $request->get('deliveryTo', 'г Санкт-Петербург');
+        $radioFrom = $request->get('radioFrom', 'terminal');
+        $radioTo = $request->get('radioTo', 'terminal');
+        $volume = $request->get('volume', 0.1);
+        $weight = $request->get('weight', 0.1);
+        $quantity = $request->get('quantity', 1);
 
         if ($radioFrom == 'terminal') {
             $dispatch = [
@@ -55,6 +55,12 @@ class PriceService
                 'point' => [
                     'location' => $deliveryTo,
                     'terminal' => 'default'
+                ]
+            ];
+        } elseif ($radioTo == 'yandex') {
+            $destination = [
+                'point' => [
+                    'location' => 'pup'
                 ]
             ];
         } else {
