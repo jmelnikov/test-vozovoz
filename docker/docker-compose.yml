@@ -25,9 +25,10 @@ services:
     container_name: ${PROJECT_NAME}-app
     restart: always
     command: >
-      sh -c "composer install
-      && chown www-data:www-data ./vendor
-      && chown www-data:www-data ./web"
+      sh -c "composer install &&
+             chmod -R 777 /var/www/web &&
+             chmod -R 777 /var/www/runtime &&
+             php-fpm"
 
   redis:
     image: redis:latest
