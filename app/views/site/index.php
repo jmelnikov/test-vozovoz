@@ -143,15 +143,19 @@ $this->title = 'Vozovoz Test';
                         return response.json();
                     })
                     .then(data => {
-                        data.cities.forEach(city => {
-                            const li = document.createElement('li');
-                            li.innerHTML = '<span>' + city.name + '</span><br/><small class="small text-muted">' + city.region + '</small>';
-                            li.addEventListener('click', () => {
-                                citiesFromClick(city);
+                        if (data.success === true) {
+                            data.cities.forEach(city => {
+                                const li = document.createElement('li');
+                                li.innerHTML = '<span>' + city.name + '</span><br/><small class="small text-muted">' + city.region + '</small>';
+                                li.addEventListener('click', () => {
+                                    citiesFromClick(city);
+                                });
+                                document.getElementById('citiesFrom').appendChild(li);
                             });
-                            document.getElementById('citiesFrom').appendChild(li);
-                        });
-                        document.getElementById('citiesFrom').style.display = 'block';
+                            document.getElementById('citiesFrom').style.display = 'block';
+                        } else {
+                            alert(data.message);
+                        }
                     })
                     .catch(error => {
                         console.error('Произошла ошибка при запросе городов:', error);
@@ -184,15 +188,19 @@ $this->title = 'Vozovoz Test';
                         return response.json();
                     })
                     .then(data => {
-                        data.cities.forEach(city => {
-                            const li = document.createElement('li');
-                            li.innerHTML = '<span>' + city.name + '</span><br/><small class="small text-muted">' + city.region + '</small>';
-                            li.addEventListener('click', () => {
-                                citiesToClick(city);
+                        if (data.success === true) {
+                            data.cities.forEach(city => {
+                                const li = document.createElement('li');
+                                li.innerHTML = '<span>' + city.name + '</span><br/><small class="small text-muted">' + city.region + '</small>';
+                                li.addEventListener('click', () => {
+                                    citiesToClick(city);
+                                });
+                                document.getElementById('citiesTo').appendChild(li);
                             });
-                            document.getElementById('citiesTo').appendChild(li);
-                        });
-                        document.getElementById('citiesTo').style.display = 'block';
+                            document.getElementById('citiesTo').style.display = 'block';
+                        } else {
+                            alert(data.message);
+                        }
                     })
                     .catch(error => {
                         console.error('Произошла ошибка при запросе городов:', error);
@@ -231,10 +239,14 @@ $this->title = 'Vozovoz Test';
                 return response.json();
             })
             .then(data => {
-                console.log('Результат:', data);
-                document.getElementById('price-old').textContent = `${data.price.basePrice}₽`;
-                document.getElementById('price-new').textContent = `${data.price.price}₽`;
-                document.getElementById('delivery-period').textContent = getDeliveryTimeText(data.price.deliveryTime.from, data.price.deliveryTime.to);
+                if (data.success === true) {
+                    console.log('Результат:', data);
+                    document.getElementById('price-old').textContent = `${data.price.basePrice}₽`;
+                    document.getElementById('price-new').textContent = `${data.price.price}₽`;
+                    document.getElementById('delivery-period').textContent = getDeliveryTimeText(data.price.deliveryTime.from, data.price.deliveryTime.to);
+                } else {
+                    alert(data.message);
+                }
             })
             .catch(error => {
                 console.error('Произошла ошибка:', error);

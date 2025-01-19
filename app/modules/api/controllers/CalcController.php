@@ -49,7 +49,7 @@ class CalcController extends Controller
         } catch (Exception $exception) {
             return json_encode([
                 'success' => false,
-                'error' => $exception->getMessage(),
+                'message' => $exception->getMessage(),
             ], JSON_UNESCAPED_UNICODE);
         }
 

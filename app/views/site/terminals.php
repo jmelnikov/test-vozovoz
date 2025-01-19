@@ -85,8 +85,12 @@ $this->title = 'Vozovoz Terminals';
                     return response.json();
                 })
                 .then(data => {
-                    terminals = data.terminals;
-                    terminalsContainer.innerHTML = '';
+                    if (data.succes === true) {
+                        terminals = data.terminals;
+                        terminalsContainer.innerHTML = '';
+                    } else {
+                        alert(data.message);
+                    }
                 });
 
             if (!terminals.length) {
