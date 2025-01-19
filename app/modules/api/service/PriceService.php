@@ -111,7 +111,10 @@ class PriceService
             throw new Exception('Ошибка при поиске города: ' . $exception->getMessage(), 500, $exception);
         }
 
-        // Возвращаем только города, без дополнительной информации
+        if (!empty($response->getData()['error'])) {
+            throw new Exception($response->getData()['error']['message']);
+        }
+
         return json_encode($response->getData()['response']);
     }
 }
