@@ -3,7 +3,9 @@
 namespace app\modules\api\controllers;
 
 use app\modules\api\DTO\CityDTO;
+use app\modules\api\DTO\TerminalDTO;
 use app\modules\api\service\CityService;
+use app\modules\api\service\TerminalService;
 use Exception;
 use Yii;
 use yii\filters\VerbFilter;
@@ -48,6 +50,24 @@ class DefaultController extends Controller
         return json_encode([
             'success' => true,
             'cities' => (new CityDTO($cities))->getCitiesShort(),
+        ], JSON_UNESCAPED_UNICODE);
+    }
+
+    public function actionTerminals(): string
+    {
+        try {
+            $terminals = (new TerminalService())
+                ->getTerminalsByRequest(Yii::$app->request);
+        } catch (Exception $exception) {
+            return json_encode([
+                'success' => false,
+                'error' => $exception->getMessage(),
+            ], JSON_UNESCAPED_UNICODE);
+        }
+
+        return json_encode([
+            'success' => true,
+            'terminals' => (new TerminalDTO($terminals))->getTerminalsShort(),
         ], JSON_UNESCAPED_UNICODE);
     }
 }

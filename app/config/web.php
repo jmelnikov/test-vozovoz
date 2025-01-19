@@ -46,9 +46,12 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '<module>/<controller>/<action>' => '<module>/<controller>/<action>', // Для всех модулей
-                '<module>/<action>' => '<module>/default/<action>', // Используйте DefaultController по умолчанию
+                '<module>/<controller>/<action>' => '<module>/<controller>/<action>',
+                '<module>/<action>' => '<module>/default/<action>',
+                '<controller>/<action>' => '<controller>/<action>',
+                '<action>' => 'site/<action>',
             ],
+
         ],
         'cities-cache' => [
             'class' => 'yii\redis\Connection',
@@ -61,6 +64,12 @@ $config = [
             'hostname' => 'redis',
             'port' => 6379,
             'database' => 1,
+        ],
+        'terminals-cache' => [
+            'class' => 'yii\redis\Connection',
+            'hostname' => 'redis',
+            'port' => 6379,
+            'database' => 2,
         ],
     ],
     'modules' => [

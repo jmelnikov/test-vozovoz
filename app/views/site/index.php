@@ -58,13 +58,14 @@ $this->title = 'Vozovoz Test';
                             До терминала
                         </label>
                     </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="radioTo" id="radioToYandex"
-                               value="yandex">
-                        <label class="form-check-label" for="radioToYandex">
-                            До пункта Яндекс
-                        </label>
-                    </div>
+                    <!--                    Яндекс убрал потому что не смог найти в документации пример его расчёта -->
+                    <!--                    <div class="form-check form-check-inline">-->
+                    <!--                        <input class="form-check-input" type="radio" name="radioTo" id="radioToYandex"-->
+                    <!--                               value="yandex">-->
+                    <!--                        <label class="form-check-label" for="radioToYandex">-->
+                    <!--                            До пункта Яндекс-->
+                    <!--                        </label>-->
+                    <!--                    </div>-->
                 </div>
             </div>
             <div class="row">
@@ -89,8 +90,8 @@ $this->title = 'Vozovoz Test';
                 <div class="col-6 mb-3">
                     <h1 class="text-center">
                         <span class="text-muted" id="price-old"
-                              style="text-decoration: line-through;">740</span>
-                        <span id="price-new">730</span>
+                              style="text-decoration: line-through;">740₽</span>
+                        <span id="price-new">730₽</span>
                     </h1>
                     <p>Доставка: <span class="text-danger" id="delivery-period">на следующий день</span></p>
                 </div>
@@ -173,6 +174,9 @@ $this->title = 'Vozovoz Test';
     });
 
     document.getElementById('calculateBtn').addEventListener('click', function () {
+        document.getElementById('delivery-period').innerHTML = 'Идёт расчёт доставки...';
+        document.getElementById('price-old').innerHTML = '';
+        document.getElementById('price-new').innerHTML = '-';
         fetch('/api/calc/form?' + new URLSearchParams({
             deliveryFrom: document.getElementById('deliveryFrom').value,
             deliveryTo: document.getElementById('deliveryTo').value,
@@ -191,8 +195,8 @@ $this->title = 'Vozovoz Test';
             })
             .then(data => {
                 console.log('Результат:', data);
-                document.getElementById('price-old').textContent = data.price.basePrice;
-                document.getElementById('price-new').textContent = data.price.price;
+                document.getElementById('price-old').textContent = `${data.price.basePrice}₽`;
+                document.getElementById('price-new').textContent = `${data.price.price}₽`;
                 document.getElementById('delivery-period').textContent = getDeliveryTimeText(data.price.deliveryTime.from, data.price.deliveryTime.to);
             })
             .catch(error => {
