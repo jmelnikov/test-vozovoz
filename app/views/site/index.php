@@ -88,10 +88,11 @@ $this->title = 'Vozovoz Test';
                 </div>
                 <div class="col-6 mb-3">
                     <h1 class="text-center">
-
-                        <span class="text-muted" style="text-decoration: line-through;">123</span>
-                        456
+                        <span class="text-muted" id="price-old"
+                              style="text-decoration: line-through;">740</span>
+                        <span id="price-new">730</span>
                     </h1>
+                    <p>Доставка: <span class="text-danger" id="delivery-period">на следующий день</span></p>
                 </div>
             </div>
             <div class="row">
@@ -213,13 +214,26 @@ $this->title = 'Vozovoz Test';
             })
             .then(data => {
                 console.log('Результат:', data);
-                // Here you can handle the returned calculation result
-                // Example: Update an element with the result
-                document.querySelector('.text-center').textContent = data.result || 'Нет данных';
+                document.getElementById('price-old').textContent = data.price.basePrice;
+                document.getElementById('price-new').textContent = data.price.price;
+                document.getElementById('delivery-period').textContent = getDeliveryTimeText(data.price.deliveryTime.from, data.price.deliveryTime.to);
             })
             .catch(error => {
                 console.error('Произошла ошибка:', error);
                 alert('Не удалось выполнить расчет. Проверьте данные или попробуйте позже.');
             });
     });
+
+
+    function getDeliveryTimeText(daysFrom, daysTo) {
+        if (daysFrom === daysTo) {
+            if (daysFrom === 1) {
+                return 'на следующий день';
+            }
+
+            return `${daysFrom} ${daysFrom === 1 ? 'день' : (daysFrom >= 2 && daysFrom <= 4 ? 'дня' : 'дней')}`;
+        }
+
+        return `от ${daysFrom} до ${daysTo} дней`;
+    }
 </script>
