@@ -2,7 +2,7 @@
 
 /** @var yii\web\View $this */
 
-$this->title = 'Vozovoz Test';
+$this->title = 'Vozovoz Terminals';
 ?>
 
 <div class="container">
