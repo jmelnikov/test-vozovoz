@@ -25,7 +25,8 @@ $this->title = 'Vozovoz Terminals';
 <div class="row mb-3" id="terminal-info" style="display: none">
     <div class="col-md-8 mx-auto border border-secondary-subtle rounded-3 pt-3">
         <h3 class="mb-0 terminal-name">Строителей пр. 39 А</h3>
-        <p class="terminal-address">Саратов, пр. Строителей, д. 39 А</p>
+        <p class="mb-0 terminal-address">Саратов, пр. Строителей, д. 39 А</p>
+        <p class="terminal-id text-muted">43ba2e9d-c94d-11e4-80bf-00155d903d03</p>
 
         <p class="mb-0">
             <strong>Описание:</strong>
@@ -37,13 +38,13 @@ $this->title = 'Vozovoz Terminals';
         </p>
         <p class="mb-0"><strong>Ограничения:</strong></p>
         <p class="mb-0">
-            <em>Ширина:</em> от <span class="min-width"></span> до <span class="max-width"></span>
+            <em>Ширина:</em> от <span class="min-width">0</span> до <span class="max-width">2.4</span>
         </p>
         <p class="mb-0">
-            <em>Длина:</em> от <span class="min-length"></span> до <span class="max-length"></span>
+            <em>Длина:</em> от <span class="min-length">0</span> до <span class="max-length">2.4</span>
         </p>
         <p>
-            <em>Высота:</em> от <span class="min-height"></span> до <span class="max-height"></span>
+            <em>Высота:</em> от <span class="min-height">0</span> до <span class="max-height">2.4</span>
         </p>
     </div>
 </div>
@@ -91,6 +92,7 @@ $this->title = 'Vozovoz Terminals';
 
                 terminalInfo.querySelector('.terminal-name').innerText = terminal.name || 'Нет названия';
                 terminalInfo.querySelector('.terminal-address').innerText = terminal.address || 'Нет адреса';
+                terminalInfo.querySelector('.terminal-id').innerText = terminal.id || 'Нет идентификатора';
                 terminalInfo.querySelector('.terminal-description').innerText = terminal.description || 'Нет описания';
                 terminalInfo.querySelector('.terminal-note').innerText = terminal.note || 'Нет примечаний';
 

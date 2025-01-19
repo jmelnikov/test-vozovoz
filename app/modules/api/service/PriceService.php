@@ -39,7 +39,7 @@ class PriceService
             $dispatch = [
                 'point' => [
                     'location' => $deliveryFrom,
-                    'terminal' => 'default'
+                    'terminal' => $request->get('terminalFrom', 'default')
                 ]
             ];
         } else {
@@ -54,7 +54,7 @@ class PriceService
             $destination = [
                 'point' => [
                     'location' => $deliveryTo,
-                    'terminal' => 'default'
+                    'terminal' => $request->get('terminalTo', 'default')
                 ]
             ];
         } else {
