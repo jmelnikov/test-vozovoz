@@ -24,7 +24,8 @@ class CityDTO
         foreach ($this->cities as $city) {
             $cities[] = [
                 'id' => $city['guid'],
-                'name' => $city['type'] . ' ' . $city['name'],
+                'name' => $city['name'],
+                'region' => $city['region_str'],
             ];
         }
 

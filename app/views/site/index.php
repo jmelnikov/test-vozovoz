@@ -9,20 +9,33 @@ $this->title = 'Vozovoz Test';
         <div class="col-md-8 mx-auto border border-secondary-subtle rounded-3 pt-3">
             <div class="row">
                 <div class="col-6">
-                    <div class="mb-3">
+                    <div class="mb-3 position-relative">
                         <label for="deliveryFrom" class="form-label">Откуда</label>
-                        <input type="hidden" id="cityFrom">
-                        <input type="text" class="form-control" id="deliveryFrom" list="citiesFrom"
-                               value="г Москва">
-                        <datalist id="citiesFrom"></datalist>
+                        <input type="hidden" id="cityFrom" value="e90f1820-0128-11e5-80c7-00155d903d03">
+                        <input type="text" class="form-control" id="deliveryFrom" value="Москва">
+                        <ul class="suggestions-list" id="citiesFrom" style="display: none;">
+                            <li>
+                                Название
+                                <small class="small text-muted">
+                                    Описание
+                                </small>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="mb-3">
+                    <div class="mb-3 position-relative">
                         <label for="deliveryTo" class="form-label">Куда</label>
-                        <input type="text" class="form-control" id="deliveryTo" list="citiesTo"
-                               value="г Санкт-Петербург">
-                        <datalist id="citiesTo"></datalist>
+                        <input type="hidden" id="cityTo" value="e90f19de-0128-11e5-80c7-00155d903d03">
+                        <input type="text" class="form-control" id="deliveryTo" value="Санкт-Петербург">
+                        <ul class="suggestions-list" id="citiesTo" style="display: none;">
+                            <li>
+                                Название
+                                <small class="small text-muted">
+                                    Описание
+                                </small>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -131,11 +144,14 @@ $this->title = 'Vozovoz Test';
                     })
                     .then(data => {
                         data.cities.forEach(city => {
-                            const option = document.createElement('option');
-                            option.value = city.name;
-                            option.textContent = city.name;
-                            document.getElementById('citiesFrom').appendChild(option);
+                            const li = document.createElement('li');
+                            li.innerHTML = '<span>' + city.name + '</span><br/><small class="small text-muted">' + city.region + '</small>';
+                            li.addEventListener('click', () => {
+                                citiesFromClick(city);
+                            });
+                            document.getElementById('citiesFrom').appendChild(li);
                         });
+                        document.getElementById('citiesFrom').style.display = 'block';
                     })
                     .catch(error => {
                         console.error('Произошла ошибка при запросе городов:', error);
@@ -143,6 +159,14 @@ $this->title = 'Vozovoz Test';
             }, typingDelay);
         }
     });
+
+    function citiesFromClick(city) {
+        document.getElementById('deliveryFrom').value = city.name;
+        document.getElementById('cityFrom').value = city.id;
+
+        document.getElementById('citiesFrom').innerHTML = '';
+        document.getElementById('citiesFrom').style.display = 'none';
+    }
 
     document.getElementById('deliveryTo').addEventListener('input', function () {
         clearTimeout(typingTimer);
@@ -161,26 +185,38 @@ $this->title = 'Vozovoz Test';
                     })
                     .then(data => {
                         data.cities.forEach(city => {
-                            const option = document.createElement('option');
-                            option.value = city.name;
-                            option.textContent = city.name;
-                            document.getElementById('citiesTo').appendChild(option);
+                            const li = document.createElement('li');
+                            li.innerHTML = '<span>' + city.name + '</span><br/><small class="small text-muted">' + city.region + '</small>';
+                            li.addEventListener('click', () => {
+                                citiesToClick(city);
+                            });
+                            document.getElementById('citiesTo').appendChild(li);
                         });
+                        document.getElementById('citiesTo').style.display = 'block';
                     })
                     .catch(error => {
                         console.error('Произошла ошибка при запросе городов:', error);
                     });
             }, typingDelay);
         }
-    });
+    })
+    ;
+
+    function citiesToClick(city) {
+        document.getElementById('deliveryTo').value = city.name;
+        document.getElementById('cityTo').value = city.id;
+
+        document.getElementById('citiesTo').innerHTML = '';
+        document.getElementById('citiesTo').style.display = 'none';
+    }
 
     document.getElementById('calculateBtn').addEventListener('click', function () {
         document.getElementById('delivery-period').innerHTML = 'Идёт расчёт доставки...';
         document.getElementById('price-old').innerHTML = '';
         document.getElementById('price-new').innerHTML = '-';
         fetch('/api/calc/form?' + new URLSearchParams({
-            deliveryFrom: document.getElementById('deliveryFrom').value,
-            deliveryTo: document.getElementById('deliveryTo').value,
+            deliveryFrom: document.getElementById('cityFrom').value,
+            deliveryTo: document.getElementById('cityTo').value,
             radioFrom: document.querySelector('input[name="radioFrom"]:checked')?.value || '',
             radioTo: document.querySelector('input[name="radioTo"]:checked')?.value || '',
             volume: document.getElementById('volume').value,
@@ -202,7 +238,7 @@ $this->title = 'Vozovoz Test';
             })
             .catch(error => {
                 console.error('Произошла ошибка:', error);
-                alert('Не удалось выполнить расчет. Проверьте данные или попробуйте позже.');
+                alert(error);
             });
     });
 
