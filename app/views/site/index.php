@@ -92,6 +92,7 @@ $this->title = 'Vozovoz Test';
                         <span class="text-muted" id="price-old"
                               style="text-decoration: line-through;">740₽</span>
                         <span id="price-new">730₽</span>
+                        *
                     </h1>
                     <p>Доставка: <span class="text-danger" id="delivery-period">на следующий день</span></p>
                 </div>
