@@ -2,14 +2,13 @@
 
 namespace app\modules\api\controllers;
 
-use app\modules\api\DTO\CityDTO;
-use app\modules\api\service\CityService;
+use app\modules\api\service\PriceService;
 use Exception;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 
-class DefaultController extends Controller
+class CalcController extends Controller
 {
     public $enableCsrfValidation = false;
 
@@ -21,8 +20,7 @@ class DefaultController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'index' => ['GET'],
-                    'cities' => ['GET',],
-                    'calc' => ['GET'],
+                    'form' => ['GET',],
                 ],
             ],
         ];
@@ -33,11 +31,10 @@ class DefaultController extends Controller
         return '{"success": true}';
     }
 
-    public function actionCities(): string
+    public function actionForm(): string
     {
         try {
-            $cities = (new CityService())
-                ->findCitiesByRequest(Yii::$app->request);
+            $price = (new PriceService())->getPricesByRequest(Yii::$app->request);
         } catch (Exception $exception) {
             return json_encode([
                 'success' => false,
@@ -47,7 +44,7 @@ class DefaultController extends Controller
 
         return json_encode([
             'success' => true,
-            'cities' => (new CityDTO($cities))->getCitiesShort(),
+            'price' => $price,
         ], JSON_UNESCAPED_UNICODE);
     }
 }

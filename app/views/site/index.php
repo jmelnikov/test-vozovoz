@@ -173,7 +173,7 @@ $this->title = 'Vozovoz Test';
     });
 
     document.getElementById('calculateBtn').addEventListener('click', function () {
-        fetch('/api/calc?' + new URLSearchParams({
+        fetch('/api/calc/form?' + new URLSearchParams({
             deliveryFrom: document.getElementById('deliveryFrom').value,
             deliveryTo: document.getElementById('deliveryTo').value,
             radioFrom: document.querySelector('input[name="radioFrom"]:checked')?.value || '',
