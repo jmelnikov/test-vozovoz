@@ -24,6 +24,10 @@ services:
       - "/etc/localtime:/etc/localtime:ro"
     container_name: ${PROJECT_NAME}-app
     restart: always
+    command: >
+      sh -c "composer install
+      && chown www-data:www-data ./vendor
+      && chown www-data:www-data ./web"
 
   redis:
     image: redis:latest
