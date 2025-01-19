@@ -57,12 +57,6 @@ class PriceService
                     'terminal' => 'default'
                 ]
             ];
-        } elseif ($radioTo == 'yandex') {
-            $destination = [
-                'point' => [
-                    'location' => 'pup'
-                ]
-            ];
         } else {
             $destination = [
                 'point' => [
