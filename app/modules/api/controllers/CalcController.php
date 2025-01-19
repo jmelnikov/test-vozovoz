@@ -34,7 +34,7 @@ class CalcController extends Controller
     public function actionForm(): string
     {
         try {
-            $price = (new PriceService())->getPricesByRequest(Yii::$app->request);
+            $price = (new PriceService())->getPricesByFormRequest(Yii::$app->request);
         } catch (Exception $exception) {
             return json_encode([
                 'success' => false,

@@ -25,7 +25,7 @@ class PriceService
     /**
      * @throws Exception
      */
-    public function getPricesByRequest(Request $request): array
+    public function getPricesByFormRequest(Request $request): array
     {
         $deliveryFrom = $request->get('deliveryFrom', 'г Москва');
         $deliveryTo = $request->get('deliveryTo', 'г Санкт-Петербург');
