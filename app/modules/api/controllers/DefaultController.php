@@ -10,11 +10,21 @@ use Exception;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
+use yii\web\Response;
 
 class DefaultController extends Controller
 {
+    private CityService $cityService;
+    private TerminalService $terminalService;
     public $enableCsrfValidation = false;
 
+    public function __construct($id, $module, $config = [])
+    {
+        $this->cityService = new CityService();
+        $this->terminalService = new TerminalService();
+
+        parent::__construct($id, $module, $config);
+    }
 
     /**
      * @return array[]
@@ -34,54 +44,53 @@ class DefaultController extends Controller
     }
 
     /**
-     * @return string
+     * @return Response
      */
-    public function actionIndex(): string
+    public function actionIndex(): Response
     {
-        return json_encode([
+        return $this->asJson([
             'success' => false,
+            'message' => 'Method not implemented',
         ]);
     }
 
     /**
-     * @return string
+     * @return Response
      */
-    public function actionCities(): string
+    public function actionCities(): Response
     {
         try {
-            $cities = (new CityService())
-                ->findCitiesByRequest(Yii::$app->request);
+            $cities = $this->cityService->findCitiesByRequest(Yii::$app->request);
         } catch (Exception $exception) {
-            return json_encode([
+            return $this->asJson([
                 'success' => false,
                 'message' => $exception->getMessage(),
-            ], JSON_UNESCAPED_UNICODE);
+            ]);
         }
 
-        return json_encode([
+        return $this->asJson([
             'success' => true,
             'cities' => (new CityDTO($cities))->getCitiesShort(),
-        ], JSON_UNESCAPED_UNICODE);
+        ]);
     }
 
     /**
-     * @return string
+     * @return Response
      */
-    public function actionTerminals(): string
+    public function actionTerminals(): Response
     {
         try {
-            $terminals = (new TerminalService())
-                ->getTerminalsByRequest(Yii::$app->request);
+            $terminals = $this->terminalService->getTerminalsByRequest(Yii::$app->request);
         } catch (Exception $exception) {
-            return json_encode([
+            return $this->asJson([
                 'success' => false,
                 'message' => $exception->getMessage(),
-            ], JSON_UNESCAPED_UNICODE);
+            ]);
         }
 
-        return json_encode([
+        return $this->asJson([
             'success' => true,
             'terminals' => (new TerminalDTO($terminals))->getTerminalsData(),
-        ], JSON_UNESCAPED_UNICODE);
+        ]);
     }
 }

@@ -85,7 +85,7 @@ $this->title = 'Vozovoz Terminals';
                     return response.json();
                 })
                 .then(data => {
-                    if (data.succes === true) {
+                    if (data.success === true) {
                         terminals = data.terminals;
                         terminalsContainer.innerHTML = '';
                     } else {

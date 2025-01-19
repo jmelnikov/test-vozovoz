@@ -74,7 +74,7 @@ class PriceService
      * @param string|null $terminal
      * @return array[]
      */
-    private function getDestination(string $type, string $location, string $terminal = null): array
+    private function getDestination(string $type, string $location, ?string $terminal = null): array
     {
         if ($type == 'terminal') {
             return [
@@ -102,7 +102,7 @@ class PriceService
         try {
             $response = $this->httpClient->createRequest()
                 ->setMethod('POST')
-                ->setUrl(env('API_URL'))
+                ->setUrl(Yii::$app->params['apiUrl'])
                 ->setData([
                     'object' => 'price',
                     'action' => 'get',

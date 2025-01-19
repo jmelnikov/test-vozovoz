@@ -29,7 +29,6 @@ class CityService
      */
     public function findCitiesByRequest(Request $request): array
     {
-
         $query = $request->get('query', '');
         $limit = $request->get('limit', 20);
         $offset = $request->get('offset', 0);
@@ -44,7 +43,7 @@ class CityService
             'offset' => $offset,
         ];
 
-        $cacheKey = implode('|', $params);
+        $cacheKey = md5(serialize($params));
         $response = $this->cache->get($cacheKey);
 
         if (!$response) {
@@ -67,7 +66,7 @@ class CityService
         try {
             $response = $this->httpClient->createRequest()
                 ->setMethod('POST')
-                ->setUrl(env('API_URL'))
+                ->setUrl(Yii::$app->params['apiUrl'])
                 ->setData([
                     'object' => 'location',
                     'action' => 'get',

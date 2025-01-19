@@ -7,11 +7,20 @@ use Exception;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
+use yii\web\Response;
 
 class CalcController extends Controller
 {
+    private PriceService $priceService;
+
     public $enableCsrfValidation = false;
 
+    public function __construct($id, $module, $config = [])
+    {
+        $this->priceService = new PriceService();
+
+        parent::__construct($id, $module, $config);
+    }
 
     /**
      * @return array[]
@@ -30,32 +39,33 @@ class CalcController extends Controller
     }
 
     /**
-     * @return string
+     * @return Response
      */
-    public function actionIndex(): string
+    public function actionIndex(): Response
     {
-        return json_encode([
+        return $this->asJson([
             'success' => false,
+            'message' => 'Method not implemented',
         ]);
     }
 
     /**
-     * @return string
+     * @return Response
      */
-    public function actionForm(): string
+    public function actionForm(): Response
     {
         try {
-            $price = (new PriceService())->getPricesByFormRequest(Yii::$app->request);
+            $price = $this->priceService->getPricesByFormRequest(Yii::$app->request);
         } catch (Exception $exception) {
-            return json_encode([
+            return $this->asJson([
                 'success' => false,
                 'message' => $exception->getMessage(),
-            ], JSON_UNESCAPED_UNICODE);
+            ]);
         }
 
-        return json_encode([
+        return $this->asJson([
             'success' => true,
             'price' => $price,
-        ], JSON_UNESCAPED_UNICODE);
+        ]);
     }
 }

@@ -22,25 +22,7 @@ class TerminalDTO
         $terminals = [];
 
         foreach ($this->terminals as $terminal) {
-            $conditions = [];
-            foreach ($terminal['conditions']['or'] as $condition) {
-                if ($condition['field'] === 'cargo.total.max.width') {
-                    $conditions['width'] = [
-                        'min' => $condition['value']['from'],
-                        'max' => $condition['value']['to'],
-                    ];
-                } elseif ($condition['field'] === 'cargo.total.max.length') {
-                    $conditions['length'] = [
-                        'min' => $condition['value']['from'],
-                        'max' => $condition['value']['to'],
-                    ];
-                } elseif ($condition['field'] === 'cargo.total.max.height') {
-                    $conditions['height'] = [
-                        'min' => $condition['value']['from'],
-                        'max' => $condition['value']['to'],
-                    ];
-                }
-            }
+            $conditions = $this->parseConditions($terminal['conditions']['or']);
 
             $terminals[] = [
                 'id' => $terminal['guid'],
@@ -55,5 +37,31 @@ class TerminalDTO
         }
 
         return $terminals;
+    }
+
+    private function parseConditions(array $conditions): array
+    {
+        $parsedConditions = [];
+
+        foreach ($conditions as $condition) {
+            if ($condition['field'] === 'cargo.total.max.width') {
+                $parsedConditions['width'] = [
+                    'min' => $condition['value']['from'],
+                    'max' => $condition['value']['to'],
+                ];
+            } elseif ($condition['field'] === 'cargo.total.max.length') {
+                $parsedConditions['length'] = [
+                    'min' => $condition['value']['from'],
+                    'max' => $condition['value']['to'],
+                ];
+            } elseif ($condition['field'] === 'cargo.total.max.height') {
+                $parsedConditions['height'] = [
+                    'min' => $condition['value']['from'],
+                    'max' => $condition['value']['to'],
+                ];
+            }
+        }
+
+        return $parsedConditions;
     }
 }

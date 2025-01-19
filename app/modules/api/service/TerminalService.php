@@ -43,7 +43,7 @@ class TerminalService
             'offset' => $offset,
         ];
 
-        $cacheKey = implode('|', $params);
+        $cacheKey = md5(serialize($params));
         $response = $this->cache->get($cacheKey);
 
         if (!$response) {
@@ -66,7 +66,7 @@ class TerminalService
         try {
             $response = $this->httpClient->createRequest()
                 ->setMethod('POST')
-                ->setUrl(env('API_URL'))
+                ->setUrl(Yii::$app->params['apiUrl'])
                 ->setData([
                     'object' => 'terminal',
                     'action' => 'get',
