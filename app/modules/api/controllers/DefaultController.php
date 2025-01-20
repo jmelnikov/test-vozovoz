@@ -60,7 +60,8 @@ class DefaultController extends Controller
     public function actionCities(): Response
     {
         try {
-            $cities = $this->cityService->findCitiesByRequest(Yii::$app->request);
+            $citiesData = $this->cityService->findCitiesByRequest(Yii::$app->request);
+            $cities = (new CityDTO($citiesData))->getCitiesShort();
         } catch (Exception $exception) {
             return $this->asJson([
                 'success' => false,
@@ -70,7 +71,7 @@ class DefaultController extends Controller
 
         return $this->asJson([
             'success' => true,
-            'cities' => (new CityDTO($cities))->getCitiesShort(),
+            'cities' => $cities,
         ]);
     }
 
@@ -80,7 +81,8 @@ class DefaultController extends Controller
     public function actionTerminals(): Response
     {
         try {
-            $terminals = $this->terminalService->getTerminalsByRequest(Yii::$app->request);
+            $terminalsData = $this->terminalService->getTerminalsByRequest(Yii::$app->request);
+            $terminals = (new TerminalDTO($terminalsData))->getTerminalsData();
         } catch (Exception $exception) {
             return $this->asJson([
                 'success' => false,
@@ -90,7 +92,7 @@ class DefaultController extends Controller
 
         return $this->asJson([
             'success' => true,
-            'terminals' => (new TerminalDTO($terminals))->getTerminalsData(),
+            'terminals' => $terminals,
         ]);
     }
 }

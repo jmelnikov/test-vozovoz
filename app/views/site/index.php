@@ -133,6 +133,7 @@ $this->title = 'Vozovoz Test';
         if (this.value.length >= 3) {
             document.getElementById('citiesFrom').innerHTML = '';
             typingTimer = setTimeout(() => {
+                document.getElementById('deliveryFrom').setAttribute('disabled', 'true');
                 fetch('/api/cities?' + new URLSearchParams({query: this.value}), {
                     method: 'GET',
                 })
@@ -140,6 +141,7 @@ $this->title = 'Vozovoz Test';
                         if (!response.ok) {
                             throw new Error('Ошибка при получении списка городов');
                         }
+                        document.getElementById('deliveryFrom').removeAttribute('disabled');
                         return response.json();
                     })
                     .then(data => {
@@ -178,6 +180,7 @@ $this->title = 'Vozovoz Test';
         if (this.value.length >= 3) {
             document.getElementById('citiesTo').innerHTML = '';
             typingTimer = setTimeout(() => {
+                document.getElementById('deliveryTo').setAttribute('disabled', 'true');
                 fetch('/api/cities?' + new URLSearchParams({query: this.value}), {
                     method: 'GET',
                 })
@@ -185,6 +188,7 @@ $this->title = 'Vozovoz Test';
                         if (!response.ok) {
                             throw new Error('Ошибка при получении списка городов');
                         }
+                        document.getElementById('deliveryTo').removeAttribute('disabled');
                         return response.json();
                     })
                     .then(data => {
