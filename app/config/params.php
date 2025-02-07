@@ -4,5 +4,6 @@ return [
     'adminEmail' => 'admin@example.com',
     'senderEmail' => 'noreply@example.com',
     'senderName' => 'Example.com mailer',
-    'apiUrl' => 'https://vozovoz.org/api/?token=LewHIJIU2eoDUx2eTWem9PXMygm1kwMAgwMuTXL6',
+    // Публичный тестовый ключ взят с сайта https://vozovoz.ru/dev/api/
+    'apiUrl' => 'https://vozovoz.org/api/?token=G934UM29wXG2IKYS9iX9oKQCeojkApHSEWAxOC5v',
 ];

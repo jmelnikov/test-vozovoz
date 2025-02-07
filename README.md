@@ -17,7 +17,8 @@
 Для работы с проектом необходимо установить [Docker](https://docs.docker.com/get-docker/)
 и [Docker Compose](https://docs.docker.com/compose/install/).
 
-Чтобы запустить проект на определённом порту, нужно в файле `./docker/docker-compose.yml` изменить порт в разделе `ports`:
+Чтобы запустить проект на определённом порту, нужно в файле `./docker/docker-compose.yml` изменить порт в разделе
+`ports`:
 
 ```yaml
   nginx:
@@ -29,6 +30,8 @@
 После установки пакетов `composer`, проект будет доступен на указанном выше порту.
 
 ### Использование
+
+Если API токен в файле `/config/params.php` недействителен, новый можно найти по адресу https://vozovoz.ru/dev/api/
 
 #### Получение городов
 
